@@ -17,9 +17,7 @@ from AltronX.modules.helper_funcs.chat_status import (
     ADMIN_CACHE,
 )
 
-from AltronX.helper_extra.admin_rights import (
-    user_can_changeinfo,
-)
+from AltronX.helper_extra.admin_rights import user_can_changeinfo
 from AltronX.modules.helper_funcs.extraction import (
     extract_user,
     extract_user_and_text,
@@ -240,7 +238,7 @@ def set_sticker(update: Update, context: CallbackContext):
 @can_promote
 @user_admin
 @loggable
-def spromote(update: Update, context: CallbackContext) -> str:
+def mpromote(update: Update, context: CallbackContext) -> str:
     bot = context.bot
     args = context.args
 
@@ -423,7 +421,7 @@ def refresh_admin(update, _):
     except KeyError:
         pass
 
-    update.effective_message.reply_text("✅ 𝐀ᴅᴍɪɴ ᴄᴀᴄʜᴇ ʀᴇғʀᴇsʜᴇᴅ ✅")
+    update.effective_message.reply_text("✅ 𝐀ᴅᴍɪɴ ᴄᴀᴄʜᴇ ʀᴇғʀᴇsʜᴇᴅ")
 
 
 @connection_status
@@ -845,7 +843,7 @@ PINNED_HANDLER = CommandHandler("pinned", pinned, filters=Filters.group)
 INVITE_HANDLER = DisableAbleCommandHandler("invitelink", invite)
 
 PROMOTE_HANDLER = DisableAbleCommandHandler("promote", promote)
-FAKEPROMOTE_HANDLER = DisableAbleCommandHandler("spromote", spromote)
+FAKEPROMOTE_HANDLER = DisableAbleCommandHandler("mpromote", mpromote)
 FULLPROMOTE_HANDLER = DisableAbleCommandHandler("fullpromote", fullpromote)
 DEMOTE_HANDLER = DisableAbleCommandHandler("demote", demote)
 
@@ -872,18 +870,6 @@ dispatcher.add_handler(SET_TITLE_HANDLER)
 dispatcher.add_handler(ADMIN_REFRESH_HANDLER)
 
 __mod_name__ = "Aᴅᴍɪɴ​"
-__command_list__ = [
-    "setdesc" "setsticker" "setgpic" "delgpic" "setgtitle" "adminlist",
-    "admins",
-    "invitelink",
-    "promote",
-    "spromote",
-    "fullpromote",
-    "lowpromote",
-    "demote",
-    "admincache",
-    "title",
-]
 
 __help__ = """
 𝗨𝘀𝗲𝗿 𝗖𝗼𝗺𝗺𝗮𝗻𝗱𝘀:
@@ -891,12 +877,12 @@ __help__ = """
   ➲ /pinned: ᴛᴏ ɢᴇᴛ ᴛʜᴇ ᴄᴜʀʀᴇɴᴛ ᴘɪɴɴᴇᴅ ᴍᴇꜱꜱᴀɢᴇ
 
 𝗧𝗵𝗲 𝗙𝗼𝗹𝗹𝗼𝘄𝗶𝗻𝗴 𝗖𝗼𝗺𝗺𝗮𝗻𝗱𝘀 𝗮𝗿𝗲 𝗔𝗱𝗺𝗶𝗻𝘀 𝗼𝗻𝗹𝘆:
-  ➲ /pin: ꜱɪʟᴇɴᴛʟʏ ᴘɪɴꜱ ᴛʜᴇ ᴍᴇꜱꜱᴀɢᴇ ʀᴇᴘʟɪᴇᴅ ᴛᴏ - ᴀᴅᴅ '`ʟᴏᴜᴅ`' ᴏʀ '`ɴᴏᴛɪꜰʏ`' ᴛᴏ ɢɪᴠᴇ ɴᴏᴛɪꜰꜱ ᴛᴏ ᴜꜱᴇʀꜱ
+  ➲ /pin: ꜱɪʟᴇɴᴛʟʏ ᴘɪɴꜱ ᴛʜᴇ ᴍᴇꜱꜱᴀɢᴇ ʀᴇᴘʟɪᴇᴅ ᴛᴏ - ᴀᴅᴅ '`loud`' ᴏʀ '`notify`' ᴛᴏ ɢɪᴠᴇ ɴᴏᴛɪꜰꜱ ᴛᴏ ᴜꜱᴇʀꜱ
   ➲ /unpin: ᴜɴᴘɪɴꜱ ᴛʜᴇ ᴄᴜʀʀᴇɴᴛʟʏ ᴘɪɴɴᴇᴅ ᴍᴇꜱꜱᴀɢᴇ
   ➲ /invitelink: ɢᴇᴛꜱ ɪɴᴠɪᴛᴇʟɪɴᴋ
   ➲ /promote: ᴘʀᴏᴍᴏᴛᴇꜱ ᴛʜᴇ ᴜꜱᴇʀ ʀᴇᴘʟɪᴇᴅ ᴛᴏ
   ➲ /fullpromote: ᴘʀᴏᴍᴏᴛᴇꜱ ᴛʜᴇ ᴜꜱᴇʀ ʀᴇᴘʟɪᴇᴅ ᴛᴏ ᴡɪᴛʜ ꜰᴜʟʟ ʀɪɢʜᴛꜱ
-  ➲ /spromote: ꜰᴀᴋᴇ ᴘʀᴏᴍᴏᴛᴇ
+  ➲ /mpromote: ꜰᴀᴋᴇ ᴘʀᴏᴍᴏᴛᴇ
   ➲ /demote: ᴅᴇᴍᴏᴛᴇꜱ ᴛʜᴇ ᴜꜱᴇʀ ʀᴇᴘʟɪᴇᴅ ᴛᴏ
   ➲ /title <title here>: ꜱᴇᴛꜱ ᴀ ᴄᴜꜱᴛᴏᴍ ᴛɪᴛʟᴇ ꜰᴏʀ ᴀɴ ᴀᴅᴍɪɴ ᴛʜᴀᴛ ᴛʜᴇ ʙᴏᴛ ᴘʀᴏᴍᴏᴛᴇᴅ
   ➲ /admincache: ꜰᴏʀᴄᴇ ʀᴇꜰʀᴇꜱʜ ᴛʜᴇ ᴀᴅᴍɪɴꜱ ʟɪꜱᴛ

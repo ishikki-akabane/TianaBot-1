@@ -1,9 +1,6 @@
-import html
-
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Update
 from telegram.error import BadRequest
-from telegram.ext import CallbackContext, CallbackQueryHandler, run_async
-from telegram.utils.helpers import mention_html
+from telegram.ext import CallbackQueryHandler, run_async
 
 import AltronX.modules.sql.approve_sql as sql
 from AltronX import DRAGONS, dispatcher
@@ -21,17 +18,17 @@ def approve(update, context):
     chat_title = message.chat.title
     chat = update.effective_chat
     args = context.args
-    user = update.effective_user
+    update.effective_user
     user_id = extract_user(message, args)
     if not user_id:
         message.reply_text(
             "I don't know who you're talking about, you're going to need to specify a user!"
         )
-        return ""
+        return
     try:
         member = chat.get_member(user_id)
     except BadRequest:
-        return ""
+        return
     if member.status == "administrator" or member.status == "creator":
         message.reply_text(
             "User is already admin - locks, blocklists, and antiflood already don't apply to them."
@@ -45,17 +42,10 @@ def approve(update, context):
         return ""
     sql.approve(message.chat_id, user_id)
     message.reply_text(
-        f"[{member.user['first_name']}](tg://user?id={member.user['id']}) has been approved in {chat_title}! They will now be ignored by automated admin actions like locks, blocklists, and antiflood.",
+        f"✅ 𝐀ᴘᴘʀᴏᴠᴇᴅ ᴜsᴇʀ ɪɴ **{chat_title}**\n𝐔sᴇʀ: [{member.user['first_name']}](tg://user?id={member.user['id']})\n\nThey will now be ignored by automated admin actions like locks, blocklists, and antiflood.",
         parse_mode=ParseMode.MARKDOWN,
     )
-    log_message = (
-        f"<b>{html.escape(chat.title)}:</b>\n"
-        f"#APPROVED\n"
-        f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-        f"<b>User:</b> {mention_html(member.user.id, member.user.first_name)}"
-    )
-
-    return log_message
+    return
 
 
 @loggable
@@ -85,32 +75,25 @@ def disapprove(update, context):
         return ""
     sql.disapprove(message.chat_id, user_id)
     message.reply_text(
-        f"{member.user['first_name']} is no longer approved in {chat_title}."
+        f"❌ 𝐔ɴ-𝐀ᴘᴘʀᴏᴠᴇᴅ ᴜsᴇʀ ɪɴ **{chat_title}**\n𝐔sᴇʀ: {member.user['first_name']}"
     )
-    log_message = (
-        f"<b>{html.escape(chat.title)}:</b>\n"
-        f"#UNAPPROVED\n"
-        f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-        f"<b>User:</b> {mention_html(member.user.id, member.user.first_name)}"
-    )
-
-    return log_message
+    return
 
 
 @user_admin
 @run_async
-def approved(update, context):
+def approved(update):
     message = update.effective_message
     chat_title = message.chat.title
     chat = update.effective_chat
-    msg = "The following users are approved.\n"
+    msg = "𝐓ʜᴇ ғᴏʟʟᴏᴡɪɴɢ ᴜsᴇʀs ᴀʀᴇ ᴀᴘᴘʀᴏᴠᴇᴅ.\n\n"
     approved_users = sql.list_approved(message.chat_id)
     for i in approved_users:
         member = chat.get_member(int(i.user_id))
-        msg += f"- `{i.user_id}`: {member.user['first_name']}\n"
+        msg += f"➤ {member.user['first_name']} : `{i.user_id}`\n"
     if msg.endswith("approved.\n"):
         message.reply_text(f"No users are approved in {chat_title}.")
-        return ""
+        return
     else:
         message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
 
@@ -127,19 +110,19 @@ def approval(update, context):
         message.reply_text(
             "I don't know who you're talking about, you're going to need to specify a user!"
         )
-        return ""
+        return
     if sql.is_approved(message.chat_id, user_id):
         message.reply_text(
-            f"{member.user['first_name']} is an approved user. Locks, antiflood, and blocklists won't apply to them."
+            f"𝐔sᴇʀ: {member.user['first_name']}\n𝐀ᴘᴘʀᴏᴠᴀʟ: ✅"
         )
     else:
         message.reply_text(
-            f"{member.user['first_name']} is not an approved user. They are affected by normal commands."
+            f"𝐔sᴇʀ: {member.user['first_name']}\n𝐀ᴘᴘʀᴏᴠᴀʟ: ❌"
         )
 
 
 @run_async
-def unapproveall(update: Update, context: CallbackContext):
+def unapproveall(update: Update):
     chat = update.effective_chat
     user = update.effective_user
     member = chat.get_member(user.id)
@@ -152,14 +135,12 @@ def unapproveall(update: Update, context: CallbackContext):
             [
                 [
                     InlineKeyboardButton(
-                        text="Unapprove all users", callback_data="unapproveall_user"
-                    )
-                ],
-                [
+                        text="⚠️ Confirm", callback_data="unapproveall_user"
+                    ),
                     InlineKeyboardButton(
-                        text="Cancel", callback_data="unapproveall_cancel"
+                        text="❌ Cancel", callback_data="unapproveall_cancel"
                     )
-                ],
+                ]
             ]
         )
         update.effective_message.reply_text(
@@ -170,7 +151,7 @@ def unapproveall(update: Update, context: CallbackContext):
 
 
 @run_async
-def unapproveall_btn(update: Update, context: CallbackContext):
+def unapproveall_btn(update: Update):
     query = update.callback_query
     chat = update.effective_chat
     message = update.effective_message
@@ -198,17 +179,12 @@ def unapproveall_btn(update: Update, context: CallbackContext):
 
 
 __help__ = """
-Sometimes, you might trust a user not to send unwanted content.
-Maybe not enough to make them admin, but you might be ok with locks, blacklists, and antiflood not applying to them.
-
-That's what approvals are for - approve of trustworthy users to allow them to send 
-
-*Admin commands:*
-❍ /approval*:* Check a user's approval status in this chat.
-❍ /approve*:* Approve of a user. Locks, blacklists, and antiflood won't apply to them anymore.
-❍ /unapprove*:* Unapprove of a user. They will now be subject to locks, blacklists, and antiflood again.
-❍ /approved*:* List all approved users.
-❍ /unapproveall*:* Unapprove *ALL* users in a chat. This cannot be undone.
+𝗔𝗱𝗺𝗶𝗻 𝗖𝗼𝗺𝗺𝗮𝗻𝗱𝘀:
+  ➲ /approval: ᴄʜᴇᴄᴋ ᴀ ᴜꜱᴇʀ'ꜱ ᴀᴘᴘʀᴏᴠᴀʟ ꜱᴛᴀᴛᴜꜱ ɪɴ ᴛʜɪꜱ ᴄʜᴀᴛ.
+  ➲ /approve: ᴀᴘᴘʀᴏᴠᴇ ᴏꜰ ᴀ ᴜꜱᴇʀ. ʟᴏᴄᴋꜱ, ʙʟᴀᴄᴋʟɪꜱᴛꜱ, ᴀɴᴅ ᴀɴᴛɪꜰʟᴏᴏᴅ ᴡᴏɴ'ᴛ ᴀᴘᴘʟʏ ᴛᴏ ᴛʜᴇᴍ ᴀɴʏᴍᴏʀᴇ.
+  ➲ /unapprove: ᴜɴᴀᴘᴘʀᴏᴠᴇ ᴏꜰ ᴀ ᴜꜱᴇʀ. ᴛʜᴇʏ ᴡɪʟʟ ɴᴏᴡ ʙᴇ ꜱᴜʙᴊᴇᴄᴛ ᴛᴏ ʟᴏᴄᴋꜱ, ʙʟᴀᴄᴋʟɪꜱᴛꜱ, ᴀɴᴅ ᴀɴᴛɪꜰʟᴏᴏᴅ ᴀɢᴀɪɴ.
+  ➲ /approved: ʟɪꜱᴛ ᴀʟʟ ᴀᴘᴘʀᴏᴠᴇᴅ ᴜꜱᴇʀꜱ.
+  ➲ /unapproveall: ᴜɴᴀᴘᴘʀᴏᴠᴇ ᴀʟʟ ᴜꜱᴇʀꜱ ɪɴ ᴀ ᴄʜᴀᴛ. ᴛʜɪꜱ ᴄᴀɴɴᴏᴛ ʙᴇ ᴜɴᴅᴏɴᴇ.
 """
 
 APPROVE = DisableAbleCommandHandler("approve", approve)
@@ -226,5 +202,4 @@ dispatcher.add_handler(UNAPPROVEALL)
 dispatcher.add_handler(UNAPPROVEALL_BTN)
 
 __mod_name__ = "Aᴘᴘʀᴏᴠᴇ"
-__command_list__ = ["approve", "unapprove", "approved", "approval"]
 __handlers__ = [APPROVE, DISAPPROVE, APPROVED, APPROVAL]

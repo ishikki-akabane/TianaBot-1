@@ -1,6 +1,5 @@
-import asyncio
 from pyrogram import filters
-from AltronX import pbot as app
+from AltronX import pbot
 from pyrogram.types import Message
 from AltronX import eor
 from AltronX.utils.errors import capture_err
@@ -13,31 +12,29 @@ async def channel_toggle(db, message: Message):
     if status == "on":
         if chat_id not in db:
             db.append(chat_id)
-            text = "**Anti Channel Mode `enabled` ✅. I will delete all message that send with channel names. Dare to leap**"
+            text = "**✅ ᴀɴᴛɪᴄʜᴀɴɴᴇʟ ᴇɴᴀʙʟᴇᴅ ✅**"
             return await eor(message, text=text)
-        await eor(message, text="antichannel Is Already Enabled.")
+        await eor(message, text="**✅ Antichannel Is Already Enabled.**")
     elif status == "off":
         if chat_id in db:
             db.remove(chat_id)
-            return await eor(message, text="antichannel Disabled!")
-        await eor(message, text=f"**Anti Channel Mode Successfully Deactivated In The Chat** {message.chat.id} ❌")
+            return await eor(message, text="❌ ᴀɴᴛɪᴄʜᴀɴɴᴇʟ ᴅɪꜱᴀʙʟᴇᴅ ❌")
+        await eor(message, text=f"**❌ Antichannel Is Already Disabled.**")
     else:
-        await eor(message, text="I undestand `/antichannel on` and `/antichannel off` only")
+        await eor(message, text="Use /antichannel with `on` or `off`")
 
 
 # Enabled | Disable antichannel
-
-
-@app.on_message(filters.command("antichannel") & ~filters.edited)
+@pbot.on_message(filters.command("antichannel") & ~filters.edited)
 @capture_err
 async def antichannel_status(_, message: Message):
     if len(message.command) != 2:
-        return await eor(message, text="I undestand `/antichannel on` and `/antichannel off` only")
+        return await eor(message, text="Use /antichannel with `on` or `off`")
     await channel_toggle(active_channel, message)
 
 
 
-@app.on_message(
+@pbot.on_message(
     (
         filters.document
         | filters.photo
@@ -58,23 +55,11 @@ async def anitchnl(_, message):
     if chat_id == sender:
         return
     else:
-        await message.delete()
-        ti = await message.reply_text("**A anti-channel message detected. I deleted it..!**")
-        await asyncio.sleep(7)
-        await ti.delete()        
+        await message.delete()   
 
 __mod_name__ = "Aɴᴛɪ-Cʜᴀɴɴᴇʟ"
 __help__ = """
-your groups to stop anonymous channels sending messages into your chats.
-**Type of messages**
-        - document
-        - photo
-        - sticker
-        - animation
-        - video
-        - text
-        
-**Admin Commands:**
- - /antichannel [on / off] - Anti- channel  function 
-**Note** : If linked channel  send any containing characters in this type when on  function no del    
+𝗔𝗡𝗧𝗜-𝗖𝗛𝗔𝗡𝗡𝗘𝗟 𝗠𝗢𝗗𝗨𝗟𝗘
+  ➲ /antichannel `on` : ᴛᴜʀɴ ᴏɴ ᴀɴᴛɪᴄʜᴀɴɴᴇʟ ꜰᴜɴᴄᴛɪᴏɴ
+  ➲ /antichannel `off` : ᴛᴜʀɴ ᴏꜰꜰ ᴀɴᴛɪᴄʜᴀɴɴᴇʟ ꜰᴜɴᴄᴛɪᴏɴ
  """
