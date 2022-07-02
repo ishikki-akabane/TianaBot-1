@@ -1,4 +1,4 @@
-from Altron.helper_extra.mongo import db
+from AltronX.helper_extra.mongo import db
 
 usersdb = db.users
 
@@ -18,13 +18,3 @@ async def remove_afk(user_id: int):
     user = usersdb.find_one({"user_id": user_id})
     if user:
         return usersdb.delete_one({"user_id": user_id})
-
-
-async def get_afk_users() -> list:
-    users = usersdb.find({"user_id": {"$gt": 0}})
-    if not users:
-        return []
-    users_list = []
-    for user in users.to_list(length=1000000000):
-        users_list.append(user)
-    return users_list

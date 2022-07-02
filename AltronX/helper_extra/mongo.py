@@ -1,4 +1,4 @@
-from Altron import MONGO_DB_URI
+from AltronX import MONGO_DB_URI
 from pymongo import MongoClient
 
 client = MongoClient()
