@@ -1,112 +1,169 @@
-"""
-MIT License
+import html
+# AI module using Intellivoid's Coffeehouse API by @TheRealPhoenix
+from time import sleep, time
 
-Copyright (c) 2021 TheHamkerCat
+import AltronX.modules.sql.chatbot_sql as sql
+from coffeehouse.api import API
+from coffeehouse.exception import CoffeeHouseError as CFError
+from coffeehouse.lydia import LydiaAI
+from AltronX import AI_API_KEY, OWNER_ID, SUPPORT_CHAT, dispatcher
+from AltronX.modules.helper_funcs.chat_status import user_admin
+from AltronX.modules.helper_funcs.filters import CustomFilters
+from AltronX.modules.log_channel import gloggable
+from telegram import Update
+from telegram.error import BadRequest, RetryAfter, Unauthorized
+from telegram.ext import (CallbackContext, CommandHandler, Filters,
+                          MessageHandler, run_async)
+from telegram.utils.helpers import mention_html
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-"""
-from asyncio import gather, sleep
-
-from pyrogram import filters
-from pyrogram.types import Message
-
-from AltronX import (
-    BOT_ID,
-    arq,
-    eor,
-)
-from AltronX import pbot as app
-from AltronX.utils.errors import capture_err
-from AltronX.utils.filter_groups import chatbot_group
-
-__mod_name__ = "Cʜᴀᴛ-Bᴏᴛ"
-__help__ = """
-/chatbot [ENABLE|DISABLE] To Enable Or Disable ChatBot In Your Chat.
-
-There's one module of this available for userbot also
-check userbot module help."""
-
-active_chats_bot = []
-active_chats_ubot = []
+CoffeeHouseAPI = API(AI_API_KEY)
+api_client = LydiaAI(CoffeeHouseAPI)
 
 
-async def chat_bot_toggle(db, message: Message):
-    status = message.text.split(None, 1)[1].lower()
-    chat_id = message.chat.id
-    if status == "enable":
-        if chat_id not in db:
-            db.append(chat_id)
-            text = "Chatbot Enabled!"
-            return await eor(message, text=text)
-        await eor(message, text="ChatBot Is Already Enabled.")
-    elif status == "disable":
-        if chat_id in db:
-            db.remove(chat_id)
-            return await eor(message, text="Chatbot Disabled!")
-        await eor(message, text="ChatBot Is Already Disabled.")
+@run_async
+@user_admin
+@gloggable
+def add_chat(update: Update, context: CallbackContext):
+    global api_client
+    chat = update.effective_chat
+    msg = update.effective_message
+    user = update.effective_user
+    is_chat = sql.is_chat(chat.id)
+    if chat.type == "private":
+        msg.reply_text("You can't enable AI in PM.")
+        return
+
+    if not is_chat:
+        ses = api_client.create_session()
+        ses_id = str(ses.id)
+        expires = str(ses.expires)
+        sql.set_ses(chat.id, ses_id, expires)
+        msg.reply_text("AI successfully enabled for this chat!")
+        message = (
+            f"<b>{html.escape(chat.title)}:</b>\n"
+            f"#AI_ENABLED\n"
+            f"<b>Admin:</b> {mention_html(user.id, html.escape(user.first_name))}\n"
+        )
+        return message
     else:
-        await eor(message, text="**Usage:**\n/chatbot [ENABLE|DISABLE]")
+        msg.reply_text("AI is already enabled for this chat!")
+        return ""
 
 
-# Enabled | Disable Chatbot
+@run_async
+@user_admin
+@gloggable
+def remove_chat(update: Update, context: CallbackContext):
+    msg = update.effective_message
+    chat = update.effective_chat
+    user = update.effective_user
+    is_chat = sql.is_chat(chat.id)
+    if not is_chat:
+        msg.reply_text("AI isn't enabled here in the first place!")
+        return ""
+    else:
+        sql.rem_chat(chat.id)
+        msg.reply_text("AI disabled successfully!")
+        message = (
+            f"<b>{html.escape(chat.title)}:</b>\n"
+            f"#AI_DISABLED\n"
+            f"<b>Admin:</b> {mention_html(user.id, html.escape(user.first_name))}\n"
+        )
+        return message
 
 
-@app.on_message(filters.command("chatbot") & ~filters.edited)
-@capture_err
-async def chatbot_status(_, message: Message):
-    if len(message.command) != 2:
-        return await eor(message, text="**Usage:**\n/chatbot [ENABLE|DISABLE]")
-    await chat_bot_toggle(active_chats_bot, message)
+def check_message(context: CallbackContext, message):
+    reply_msg = message.reply_to_message
+    if message.text.lower() == "gabi":
+        return True
+    if reply_msg:
+        if reply_msg.from_user.id == context.bot.get_me().id:
+            return True
+    else:
+        return False
 
 
-async def lunaQuery(query: str, user_id: int):
-    luna = await arq.luna(query, user_id)
-    return luna.result
-
-
-async def type_and_send(message: Message):
-    chat_id = message.chat.id
-    user_id = message.from_user.id if message.from_user else 0
-    query = message.text.strip()
-    await message._client.send_chat_action(chat_id, "typing")
-    response, _ = await gather(lunaQuery(query, user_id), sleep(3))
-    await message.reply_text(response)
-    await message._client.send_chat_action(chat_id, "cancel")
-
-
-@app.on_message(
-    filters.text
-    & filters.reply
-    & ~filters.bot
-    & ~filters.via_bot
-    & ~filters.forwarded
-    & ~filters.edited,
-    group=chatbot_group,
-)
-@capture_err
-async def chatbot_talk(_, message: Message):
-    if message.chat.id not in active_chats_bot:
+@run_async
+def chatbot(update: Update, context: CallbackContext):
+    global api_client
+    msg = update.effective_message
+    chat_id = update.effective_chat.id
+    is_chat = sql.is_chat(chat_id)
+    bot = context.bot
+    if not is_chat:
         return
-    if not message.reply_to_message:
-        return
-    if not message.reply_to_message.from_user:
-        return
-    if message.reply_to_message.from_user.id != BOT_ID:
-        return
-    await type_and_send(message)
+    if msg.text and not msg.document:
+        if not check_message(context, msg):
+            return
+        sesh, exp = sql.get_ses(chat_id)
+        query = msg.text
+        try:
+            if int(exp) < time():
+                ses = api_client.create_session()
+                ses_id = str(ses.id)
+                expires = str(ses.expires)
+                sql.set_ses(chat_id, ses_id, expires)
+                sesh, exp = sql.get_ses(chat_id)
+        except ValueError:
+            pass
+        try:
+            bot.send_chat_action(chat_id, action='typing')
+            rep = api_client.think_thought(sesh, query)
+            sleep(0.3)
+            msg.reply_text(rep, timeout=60)
+        except CFError as e:
+            pass
+            #bot.send_message(OWNER_ID,
+            #                 f"Chatbot error: {e} occurred in {chat_id}!")
+
+
+@run_async
+def list_chatbot_chats(update: Update, context: CallbackContext):
+    chats = sql.get_all_chats()
+    text = "<b>AI-Enabled Chats</b>\n"
+    for chat in chats:
+        try:
+            x = context.bot.get_chat(int(*chat))
+            name = x.title if x.title else x.first_name
+            text += f"• <code>{name}</code>\n"
+        except BadRequest:
+            sql.rem_chat(*chat)
+        except Unauthorized:
+            sql.rem_chat(*chat)
+        except RetryAfter as e:
+            sleep(e.retry_after)
+    update.effective_message.reply_text(text, parse_mode="HTML")
+
+
+__help__ = f"""
+Chatbot utilizes the CoffeeHouse API and allows Saitama to talk and provides a more interactive group chat experience.
+
+*Commands:* 
+*Admins only:*
+ • `/addchat`*:* Enables Chatbot mode in the chat.
+ • `/rmchat`*:* Disables Chatbot mode in the chat.
+
+Reports bugs at @{SUPPORT_CHAT}
+*Powered by CoffeeHouse* (https://coffeehouse.intellivoid.net/) from @Intellivoid
+"""
+
+ADD_CHAT_HANDLER = CommandHandler("addchat", add_chat)
+REMOVE_CHAT_HANDLER = CommandHandler("rmchat", remove_chat)
+CHATBOT_HANDLER = MessageHandler(
+    Filters.text & (~Filters.regex(r"^#[^\s]+") & ~Filters.regex(r"^!")
+                    & ~Filters.regex(r"^\/")), chatbot)
+LIST_CB_CHATS_HANDLER = CommandHandler(
+    "listaichats", list_chatbot_chats, filters=CustomFilters.dev_filter)
+# Filters for ignoring #note messages, !commands and sed.
+
+dispatcher.add_handler(ADD_CHAT_HANDLER)
+dispatcher.add_handler(REMOVE_CHAT_HANDLER)
+dispatcher.add_handler(CHATBOT_HANDLER)
+dispatcher.add_handler(LIST_CB_CHATS_HANDLER)
+
+__mod_name__ = "Chatbot"
+__command_list__ = ["addchat", "rmchat", "listaichats"]
+__handlers__ = [
+    ADD_CHAT_HANDLER, REMOVE_CHAT_HANDLER, CHATBOT_HANDLER,
+    LIST_CB_CHATS_HANDLER
+]
