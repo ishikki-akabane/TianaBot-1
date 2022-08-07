@@ -1,6 +1,6 @@
 import threading
 
-from GabiBraunRobot.modules.sql import BASE, SESSION
+from AltronX.modules.sql import BASE, SESSION
 from sqlalchemy import Column, String
 
 
