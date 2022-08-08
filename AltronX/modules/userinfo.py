@@ -301,19 +301,19 @@ def info(update: Update, context: CallbackContext):
         text += "\n\nThe Disaster level of this person is 'Kɪɴɢ'."
         disaster_level_present = True
     elif user.id in DEV_USERS:
-        text += "\n\nThis user is member of 'Prince'."
+        text += "\n\nThis user is member of 'Pʀɪɴᴄᴇ'."
         disaster_level_present = True
     elif user.id in DRAGONS:
-        text += "\n\nThe Disaster level of this person is '𝙳𝚛𝚊𝚐𝚘𝚗𝚜'."
+        text += "\n\nThe Disaster level of this person is 'Dʀᴀɢᴏɴ'."
         disaster_level_present = True
     elif user.id in DEMONS:
-        text += "\n\nThe Disaster level of this person is 'Governor'."
+        text += "\n\nThe Disaster level of this person is 'Dᴇᴍᴏɴ'."
         disaster_level_present = True
     elif user.id in TIGERS:
-        text += "\n\nThe Disaster level of this person is 'Captain'."
+        text += "\n\nThe Disaster level of this person is 'Tɪɢᴇʀ'."
         disaster_level_present = True
     elif user.id in WOLVES:
-        text += "\n\nThe Disaster level of this person is 'Soldier'."
+        text += "\n\nThe Disaster level of this person is 'Wᴏʟғ'."
         disaster_level_present = True
     elif user.id == 1829047705:
          text += "\n\nOwner Of A Bot. Queen Of @excrybaby. Bot Name Inspired From 'JoJo'."
