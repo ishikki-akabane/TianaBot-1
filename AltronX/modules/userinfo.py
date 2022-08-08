@@ -301,7 +301,7 @@ def info(update: Update, context: CallbackContext):
         text += "\n\nThe Disaster level of this person is 'Kɪɴɢ'."
         disaster_level_present = True
     elif user.id in DEV_USERS:
-        text += "\n\nThis user is member of 'ʀᴏʏᴀʟ'."
+        text += "\n\nThis user is member of 'Prince'."
         disaster_level_present = True
     elif user.id in DRAGONS:
         text += "\n\nThe Disaster level of this person is '𝙳𝚛𝚊𝚐𝚘𝚗𝚜'."
