@@ -605,7 +605,7 @@ Aɢᴀɪɴ  Tʜᴀɴᴋs  Fᴏʀ  Usɪɴɢ  Mᴇ
 
 ✗ *Authorised Users List*:
 
-Tiana has a additional feature for non-admin users who want to use admin commands
+Miku has a additional feature for non-admin users who want to use admin commands
 -Auth users can skip, pause, stop, resume Voice Chats even without Admin Rights.
 
 
@@ -701,7 +701,7 @@ Support
             reply_markup=InlineKeyboardMarkup(
                 [
                  [
-                    InlineKeyboardButton(text="Nᴇᴡꜱ", url=f"t.me/MikuXUpdatesChannel"),
+                    InlineKeyboardButton(text="Nᴇᴡꜱ", url=f"t.me/"),
                     InlineKeyboardButton(text="Dᴏɴᴀᴛᴇ Mᴇ", url=f"{DONATION_LINK}"),
                  ],
                  [
@@ -724,7 +724,7 @@ Support
             reply_markup=InlineKeyboardMarkup(
                 [
                  [
-                    InlineKeyboardButton(text="📄 𝙎𝙪𝙥𝙥𝙤𝙧𝙩", url="https://t.me/MikuXSupportChat"),                 
+                    InlineKeyboardButton(text="📄 Source", url="https://t.me/MikuXSupportChat"),                 
                     InlineKeyboardButton(text="🔙 𝘽𝙖𝙘𝙠", callback_data="about_"),
                  ]    
                 ]
