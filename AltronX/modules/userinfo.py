@@ -297,7 +297,7 @@ def info(update: Update, context: CallbackContext):
 
     disaster_level_present = False
 
-    if user.id == OWNER_ID:
+    elif user.id in OWNER_ID:
         text += "\n\nтнιѕ ∂ιѕαѕтєя ℓєνєℓ σƒ тнє ρєяѕση ιѕ 'Kɪɴɢ'."
         disaster_level_present = True
     elif user.id in DEV_USERS:
