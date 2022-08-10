@@ -556,7 +556,7 @@ Aɢᴀɪɴ  Tʜᴀɴᴋs  Fᴏʀ  Usɪɴɢ  Mᴇ
         query.message.edit_text(
             text="""✗*Here is the help for Play Commands*:
 
-*Note*: Tiana Music Bot works on a single merged commands for Music and Video
+*Note*: Miku Music Bot works on a single merged commands for Music and Video
 
 ✗ *Youtube and Telegram Files*:
 
@@ -564,10 +564,10 @@ Aɢᴀɪɴ  Tʜᴀɴᴋs  Fᴏʀ  Usɪɴɢ  Mᴇ
 - Stream Video or Music on Voice Chat by selecting inline Buttons you get
 
 
-✗ *Tiana Database Saved Playlists*:
+✗ *Miku Database Saved Playlists*:
 
 /createplaylist
-- Create Your Playlist on Tiana's Server with Custom Name
+- Create Your Playlist on Miku's Server with Custom Name
 
 /playlist 
 - Check Your Saved Playlist On Servers.
@@ -576,7 +576,7 @@ Aɢᴀɪɴ  Tʜᴀɴᴋs  Fᴏʀ  Usɪɴɢ  Mᴇ
 - Delete any saved music in your playlist
 
 /playplaylist 
-- Start playing Your Saved Playlist on Tiana Servers.""",
+- Start playing Your Saved Playlist on Miku Servers.""",
             parse_mode=ParseMode.MARKDOWN,
             disable_web_page_preview=True,
             reply_markup=InlineKeyboardMarkup(
@@ -605,7 +605,7 @@ Aɢᴀɪɴ  Tʜᴀɴᴋs  Fᴏʀ  Usɪɴɢ  Mᴇ
 
 ✗ *Authorised Users List*:
 
-Tiana has a additional feature for non-admin users who want to use admin commands
+Miku has a additional feature for non-admin users who want to use admin commands
 -Auth users can skip, pause, stop, resume Voice Chats even without Admin Rights.
 
 
@@ -629,7 +629,7 @@ Tiana has a additional feature for non-admin users who want to use admin command
 
 
 /start 
-- Start the Tiana Music Bot.
+- Start the Miku Music Bot.
 
 /help 
 - Get Commands Helper Menu with detailed explanations of commands.
@@ -638,7 +638,7 @@ Tiana has a additional feature for non-admin users who want to use admin command
 - Get Settings dashboard of a group. You can manage Auth Users Mode. Commands Mode from here.
 
 /ping
-- Ping the Bot and check Ram, Cpu etc stats of Tiana.""",
+- Ping the Bot and check Ram, Cpu etc stats of Miku.""",
             parse_mode=ParseMode.HTML,
             reply_markup=InlineKeyboardMarkup(
                 [[InlineKeyboardButton(text="🔙 𝘽𝙖𝙘𝙠", callback_data="tiana_music")]]
@@ -654,10 +654,10 @@ Tiana has a additional feature for non-admin users who want to use admin command
 - Searches Lyrics for the particular Music on web.
 
 /sudolist 
-- Check Sudo Users of Tiana Music Bot
+- Check Sudo Users of Miku Music Bot
 
 /song [Track Name] or [YT Link]
-- Download any track from youtube in mp3 or mp4 formats via Tiana.
+- Download any track from youtube in mp3 or mp4 formats via Miku.
 
 /queue
 - Check Queue List of Music.
@@ -671,7 +671,7 @@ Tiana has a additional feature for non-admin users who want to use admin command
         )
     elif query.data == "tiana_about":
         query.message.edit_text(
-            text=f"""{BOT_NAME} it's online since January 2022 and it's constantly updated!
+            text=f"""{BOT_NAME} it's online since 6th August 2022 and it's constantly updated!
             
 Bot Admins
                        
@@ -717,14 +717,14 @@ Support
         )
     elif query.data == "tiana_source":
         query.message.edit_text(
-            text="""*AltronX is Now Open Source Bot Project.*
+            text="""*Miku is Now Open Source Bot Project.*
 
 *Click below Button to Get Source Code.*""",
             parse_mode=ParseMode.MARKDOWN,
             reply_markup=InlineKeyboardMarkup(
                 [
                  [
-                    InlineKeyboardButton(text="📄 𝙎𝙤𝙪𝙧𝙘𝙚", url="github.com/Prince-Botz/AltronX"),                 
+                    InlineKeyboardButton(text="📄 Source", url="https://t.me/MikuXSupportChat),                 
                     InlineKeyboardButton(text="🔙 𝘽𝙖𝙘𝙠", callback_data="about_"),
                  ]    
                 ]
@@ -758,7 +758,7 @@ def tiana_about_callback(update: Update, context: CallbackContext):
                      InlineKeyboardButton(text="📄 𝙎𝙤𝙪𝙧𝙘𝙚", callback_data="tiana_source"),
                  ],
                  [  
-                    InlineKeyboardButton(text="🫂 𝙎𝙪𝙥𝙥𝙤𝙧𝙩", callback_data="tiana_support"),
+                    InlineKeyboardButton(text="🫂 𝙎𝙪𝙥𝙥𝙤𝙧𝙩", callback_data="Miku_Support"),
                     InlineKeyboardButton(text="👨‍✈️ 𝙊𝙬𝙣𝙚𝙧", url=f"t.me/{OWNER_USERNAME}"),
                  ],
                  [
