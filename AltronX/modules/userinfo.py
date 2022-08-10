@@ -295,15 +295,11 @@ def info(update: Update, context: CallbackContext):
     except:
         pass  # don't crash if api is down somehow...
 
-    disaster_level_present = True
+    disaster_level_present = False
 
     if user.id == OWNER_ID:
         text += "\n\nтнιѕ ∂ιѕαѕтєя ℓєνєℓ σƒ тнє ρєяѕση ιѕ 'Kɪɴɢ'."
         disaster_level_present = True
-        if disaster_level_present:
-        text += ' [<a href="https://t.me/MikuXUpdatesChannel/21">?</a>]'.format(
-            bot.username,
-        )
     elif user.id in DEV_USERS:
         text += "\n\nтнιѕ ∂ιѕαѕтєя ℓєνєℓ σƒ тнє ρєяѕση ιѕ 'Pʀɪɴᴄᴇ'."
         disaster_level_present = True
