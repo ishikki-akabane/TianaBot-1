@@ -679,7 +679,7 @@ Bot Admins
             
 • The Doctor, server manager and developer.
             
-• Manuel 5, developer.
+• Manuel 2, developer.
             
 Support
             
