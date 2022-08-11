@@ -301,7 +301,7 @@ def info(update: Update, context: CallbackContext):
         text += "\n\nтнιѕ ∂ιѕαѕтєя ℓєνєℓ σƒ тнє ρєяѕση ιѕ 'Kɪɴɢ'."
         disaster_level_present = True
     elif user.id in DEV_USERS:
-        text += "\n\nтнιѕ ∂ιѕαѕтєя ℓєνєℓ σƒ тнє ρєяѕση ιѕ'Pʀɪɴᴄᴇ'."
+        text += "\n\n∂ιѕαѕтєя ℓєνєℓ σƒ тнє ρєяѕση 《яσуαℓ》."
         disaster_level_present = True
     elif user.id in DRAGONS:
         text += "\n\nтнιѕ ∂ιѕαѕтєя ℓєνєℓ σƒ тнє ρєяѕση ιѕ 'Dʀᴀɢᴏɴ'."
