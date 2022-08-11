@@ -247,7 +247,7 @@ def start(update: Update, context: CallbackContext):
                     sql.num_chats()),
                 reply_markup=InlineKeyboardMarkup(
                  [
-                  [InlineKeyboardButton(text="📄 Updates", url="https://t.me/{UPDATE_CHANNEL}"), 
+                  [InlineKeyboardButton(text="📄 Source", url="https://github.com/TheAltronX/AltronX1"), 
                    InlineKeyboardButton(text="🫂 Support", url=f"https://t.me/{SUPPORT_CHAT}")]
                  ]
               ),
@@ -605,7 +605,7 @@ Aɢᴀɪɴ  Tʜᴀɴᴋs  Fᴏʀ  Usɪɴɢ  Mᴇ
 
 ✗ *Authorised Users List*:
 
-Miku has a additional feature for non-admin users who want to use admin commands
+Tiana has a additional feature for non-admin users who want to use admin commands
 -Auth users can skip, pause, stop, resume Voice Chats even without Admin Rights.
 
 
@@ -671,7 +671,7 @@ Miku has a additional feature for non-admin users who want to use admin commands
         )
     elif query.data == "tiana_about":
         query.message.edit_text(
-            text=f"""{BOT_NAME} it's online since 6th August 2022 and it's constantly updated!
+            text=f"""{BOT_NAME} it's online since January 2022 and it's constantly updated!
             
 Bot Admins
                        
@@ -679,7 +679,7 @@ Bot Admins
             
 • The Doctor, server manager and developer.
             
-• Manuel 2, developer.
+• Manuel 5, developer.
             
 Support
             
@@ -724,7 +724,7 @@ Support
             reply_markup=InlineKeyboardMarkup(
                 [
                  [
-                    InlineKeyboardButton(text="📄 𝙎𝙊𝙐𝙍𝘾𝙀", url="https://github.com/POKELEGEND/TianaBot),                 
+                    InlineKeyboardButton(text="📄 𝙎𝙤𝙪𝙧𝙘𝙚", url="github.com/Prince-Botz/AltronX"),                 
                     InlineKeyboardButton(text="🔙 𝘽𝙖𝙘𝙠", callback_data="about_"),
                  ]    
                 ]
@@ -1066,7 +1066,7 @@ def main():
 
     if SUPPORT_CHAT is not None and isinstance(SUPPORT_CHAT, str):
         try:
-            dispatcher.bot.sendMessage(f"@{SUPPORT_CHAT}", "мιкυ ηαкαησ υρᴅαтєᴅ ѕυᴄᴄєѕѕƒυℓℓу ✅")
+            dispatcher.bot.sendMessage(f"@{SUPPORT_CHAT}", "Mɪᴋᴜ Nᴀᴋᴀɴᴏ Is Aʟɪᴠᴇ!")
         except Unauthorized:
             LOGGER.warning(
                 "Bot isnt able to send message to support_chat, go and check!"
@@ -1128,4 +1128,3 @@ if __name__ == "__main__":
     telethn.start(bot_token=TOKEN)
     pbot.start()
     main()
-
