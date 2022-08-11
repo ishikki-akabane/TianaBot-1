@@ -724,7 +724,7 @@ Support
             reply_markup=InlineKeyboardMarkup(
                 [
                  [
-                    InlineKeyboardButton(text="📄 𝙎𝙊𝙐𝙍𝘾𝙀", url="https://t.me/MikuXSupportChat),                 
+                    InlineKeyboardButton(text="📄 𝙎𝙊𝙐𝙍𝘾𝙀", url="https://github.com/POKELEGEND/TianaBot),                 
                     InlineKeyboardButton(text="🔙 𝘽𝙖𝙘𝙠", callback_data="about_"),
                  ]    
                 ]
