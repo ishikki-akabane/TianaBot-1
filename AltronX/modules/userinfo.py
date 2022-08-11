@@ -297,11 +297,11 @@ def info(update: Update, context: CallbackContext):
 
     disaster_level_present = False
 
-    if user.id in OWNER_ID:
-        text += "\n\nтнιѕ ∂ιѕαѕтєя ℓєνєℓ σƒ тнє ρєяѕση ιѕ 'Kɪɴɢ'."
+    if user.id == OWNER_ID:
+        text += "\n\nтнιѕ ∂ιѕαѕтєя ℓєνєℓ σƒ тнє ρєяѕση ιѕ 'Kɪɴɢ' [?](https://t.me/MikuXUpdatesChannel/22)"
         disaster_level_present = True
     elif user.id in DEV_USERS:
-        text += "\n\nтнιѕ ∂ιѕαѕтєя ℓєνєℓ σƒ тнє ρєяѕση ιѕ 'Pʀɪɴᴄᴇ'."
+        text += "\n\nтнιѕ ∂ιѕαѕтєя ℓєνєℓ σƒ тнє ρєяѕση ιѕ'Pʀɪɴᴄᴇ'."
         disaster_level_present = True
     elif user.id in DRAGONS:
         text += "\n\nтнιѕ ∂ιѕαѕтєя ℓєνєℓ σƒ тнє ρєяѕση ιѕ 'Dʀᴀɢᴏɴ'."
@@ -353,9 +353,9 @@ def info(update: Update, context: CallbackContext):
                     [
                         [
                             InlineKeyboardButton(
-                                "Health", url="https://t.me/MikuXUpdatesChannel/22"),
+                                "Health", url="https://t.me/YurikoLogger/5"),
                             InlineKeyboardButton(
-                                "Disaster", url="https://t.me/MikuXUpdatesChannel/21")
+                                "Disaster", url="https://t.me/YurikoLogger/6")
                         ],
                     ]
                 ),
@@ -563,7 +563,7 @@ When marked as AFK, any mentions will be replied to with a message to say you're
  ❍ /info*:* get information about a user. 
  
 *What is that health thingy?*
- Come and see [HP System explained](https://t.me/MikuXSupportChat/680)
+ Come and see [HP System explained](https://t.me/MikuXUpdatesChannel/22)
 """
 
 SET_BIO_HANDLER = DisableAbleCommandHandler("setbio", set_about_bio)
