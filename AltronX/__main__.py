@@ -556,7 +556,7 @@ Aɢᴀɪɴ  Tʜᴀɴᴋs  Fᴏʀ  Usɪɴɢ  Mᴇ
         query.message.edit_text(
             text="""✗*Here is the help for Play Commands*:
 
-*Note*: Miku Music Bot works on a single merged commands for Music and Video
+*Note*: Tiana Music Bot works on a single merged commands for Music and Video
 
 ✗ *Youtube and Telegram Files*:
 
@@ -564,10 +564,10 @@ Aɢᴀɪɴ  Tʜᴀɴᴋs  Fᴏʀ  Usɪɴɢ  Mᴇ
 - Stream Video or Music on Voice Chat by selecting inline Buttons you get
 
 
-✗ *Miku Database Saved Playlists*:
+✗ *Tiana Database Saved Playlists*:
 
 /createplaylist
-- Create Your Playlist on Miku's Server with Custom Name
+- Create Your Playlist on Tiana's Server with Custom Name
 
 /playlist 
 - Check Your Saved Playlist On Servers.
@@ -576,7 +576,7 @@ Aɢᴀɪɴ  Tʜᴀɴᴋs  Fᴏʀ  Usɪɴɢ  Mᴇ
 - Delete any saved music in your playlist
 
 /playplaylist 
-- Start playing Your Saved Playlist on Miku Servers.""",
+- Start playing Your Saved Playlist on Tiana Servers.""",
             parse_mode=ParseMode.MARKDOWN,
             disable_web_page_preview=True,
             reply_markup=InlineKeyboardMarkup(
@@ -629,7 +629,7 @@ Miku has a additional feature for non-admin users who want to use admin commands
 
 
 /start 
-- Start the Miku Music Bot.
+- Start the Tiana Music Bot.
 
 /help 
 - Get Commands Helper Menu with detailed explanations of commands.
@@ -638,7 +638,7 @@ Miku has a additional feature for non-admin users who want to use admin commands
 - Get Settings dashboard of a group. You can manage Auth Users Mode. Commands Mode from here.
 
 /ping
-- Ping the Bot and check Ram, Cpu etc stats of Miku.""",
+- Ping the Bot and check Ram, Cpu etc stats of Tiana.""",
             parse_mode=ParseMode.HTML,
             reply_markup=InlineKeyboardMarkup(
                 [[InlineKeyboardButton(text="🔙 𝘽𝙖𝙘𝙠", callback_data="tiana_music")]]
@@ -654,10 +654,10 @@ Miku has a additional feature for non-admin users who want to use admin commands
 - Searches Lyrics for the particular Music on web.
 
 /sudolist 
-- Check Sudo Users of Miku Music Bot
+- Check Sudo Users of Tiana Music Bot
 
 /song [Track Name] or [YT Link]
-- Download any track from youtube in mp3 or mp4 formats via Miku.
+- Download any track from youtube in mp3 or mp4 formats via Tiana.
 
 /queue
 - Check Queue List of Music.
@@ -717,7 +717,7 @@ Support
         )
     elif query.data == "tiana_source":
         query.message.edit_text(
-            text="""*Miku is Now Open Source Bot Project.*
+            text="""*AltronX is Now Open Source Bot Project.*
 
 *Click below Button to Get Source Code.*""",
             parse_mode=ParseMode.MARKDOWN,
