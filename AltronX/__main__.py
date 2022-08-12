@@ -112,6 +112,7 @@ buttons = [
 TIANA_IMG = f"{START_IMG}"
 TIANA_VIDA = f"{BOT_TUT}"
 TIANA_VIDB = f"{MUSICBOT_TUT}"
+MIKU_UPD_PIC = "https://telegra.ph/file/a1fea8198c55f39e114e7.jpg"
 
 HELP_STRINGS = """*Click on the Buttons Bellow to get Documention about Specific Modules*"""
 
@@ -1066,9 +1067,17 @@ def main():
 
     if SUPPORT_CHAT is not None and isinstance(SUPPORT_CHAT, str):
         try:
-            dispatcher.bot.sendMessage(f"@{SUPPORT_CHAT}", "Mɪᴋᴜ Nᴀᴋᴀɴᴏ Is Aʟɪᴠᴇ[!](https://telegra.ph/file/b93cc9b9af1fc14789446.jpg)",
-                parse_mode=ParseMode.MARKDOWN,
-            )
+            dispatcher.bot.send_photo(f"@{SUPPORT_CHAT}", MIKU_UPD_PIC, caption=f"*мιкυ ηαкαησ ιѕ ѕтαятє∂*\n*• ι αм яєα∂у тσ ωσяк*\n*• ℓєтѕ gєт тнє ραяту ѕтαятє∂*", parse_mode=ParseMode.MARKDOWN,
+            reply_markup=InlineKeyboardMarkup(
+                [
+                  [                  
+                       InlineKeyboardButton(
+                             text="⚜️ σғғ-тσριᴄ ⚜️",
+                             url="https://t.me/ANIME_GROUP_XD")
+                     ] 
+                ]
+            ),
+        )
         except Unauthorized:
             LOGGER.warning(
                 "Bot isnt able to send message to support_chat, go and check!"
